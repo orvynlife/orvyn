@@ -520,3 +520,4 @@ body.side-closed .main { margin-left: 0; }
 .dr-fees b { display: block; font-size: 15px; }
 .dr-fees small { display: block; font-size: 11.5px; color: var(--muted); margin-top: 2px; }
 .dr-fees .btn { height: 36px; font-size: 13px; flex: none; }
+.soon { font-style: normal; margin-left: 6px; padding: 1px 6px; border-radius: 999px; font-size: 9.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line-2); vertical-align: 1px; }
