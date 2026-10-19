@@ -42,6 +42,12 @@ log('collect', rc.status === 1 && ev && ev.args.toCreator * 10000n / ev.args.tot
 // 6 · the live site reads all this from the chain, in public
 const cfg = await (await fetch('https://orvyn.life/api/config')).json().catch(() => ({}))
 log('api', cfg.fees?.splitterFactory === FACTORY.toLowerCase() && cfg.fees.creatorBps === 7143, 'The live site states the factory and the split in a public API', `orvyn.life/api/config → ${JSON.stringify(cfg.fees)}`)
-// 7 · open-source repo (GitHub account not created yet)
-log('repo', false, 'Open-source repository on GitHub', 'not published yet (owner is creating the GitHub account)')
+// 7 · the public repo holds the exact source that is verified on chain (byte for byte, every file Sourcify has)
+const REPO = 'orvynlife/orvyn'
+let same = 0, n = 0
+for (const a of [FACTORY, SPLITTER]) {
+  const srcs = (await (await fetch(`https://sourcify.dev/server/v2/contract/4663/${a}?fields=sources`)).json().catch(() => ({}))).sources || {}
+  for (const [p, v] of Object.entries(srcs)) { n++; const raw = await (await fetch(`https://raw.githubusercontent.com/${REPO}/main/contracts/${p}`)).text(); if (raw === v.content) same++ }
+}
+log('repo', n > 0 && same === n, 'The public repo holds the exact source that is verified on chain', `github.com/${REPO} · ${same}/${n} verified source files identical`)
 console.log('\n' + JSON.stringify({ checked: new Date().toISOString(), out }, null, 1))
