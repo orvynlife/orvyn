@@ -365,7 +365,8 @@ body.side-closed .main { margin-left: 0; }
 /* ---------- responsive ---------- */
 @media (max-width: 1280px) {
   .latest, .skilled { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .tb-ca span { max-width: 200px; }
+  .tb-ca:not(.has-ca) span { max-width: 200px; }
+  .tb-ca.has-ca { font-size: 11px; }
 }
 @media (max-width: 1100px) {
   .side { transform: translateX(-100%); box-shadow: 30px 0 80px rgba(0,0,0,.6); }
@@ -384,11 +385,14 @@ body.side-closed .main { margin-left: 0; }
   .ca-strip span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .ca-strip button { width: 28px; height: 28px; display: grid; place-items: center; color: var(--muted); }
   .ca-strip .icon { width: 15px; height: 15px; }
+  .ca-strip:not(.has-ca) span { color: var(--muted); letter-spacing: .08em; }
+  .ca-strip.has-ca span { overflow: visible; text-overflow: clip; }
   .main { padding-top: calc(var(--top) + 36px + 16px); }
   .side { top: calc(var(--top) + 36px); }
 }
 @media (max-width: 760px) {
   .app { --top: 60px; }
+  .ca-strip.has-ca { padding: 0 10px; gap: 6px; font-size: 10px; }
   .topbar { gap: 8px; padding: 0 12px; }
   .search { display: none; }
   .tb-menu { display: none; }
@@ -521,3 +525,4 @@ body.side-closed .main { margin-left: 0; }
 .dr-fees small { display: block; font-size: 11.5px; color: var(--muted); margin-top: 2px; }
 .dr-fees .btn { height: 36px; font-size: 13px; flex: none; }
 .soon { font-style: normal; margin-left: 6px; padding: 1px 6px; border-radius: 999px; font-size: 9.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line-2); vertical-align: 1px; }
+.foot .foot-verify { grid-column: 1 / -1; }

@@ -3,24 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ORVYN — Launch autonomous agent coins</title>
-<meta name="description" content="Describe an agent, give it a coin, let it work. The launchpad for autonomous agent coins on Robinhood Chain.">
+<title>ORVYN — Launch agent coins</title>
+<meta name="description" content="Describe an agent in one sentence, give it a face and a coin on Pons, and earn 0.5% of every trade. The launchpad for agent coins on Robinhood Chain.">
 <meta name="theme-color" content="#060609">
-<link rel="canonical" href="https://orvyn.life/app">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ORVYN">
-<meta property="og:title" content="ORVYN — Launch autonomous agent coins">
-<meta property="og:description" content="Describe an agent, give it a coin on Pons, let it work. The launchpad for autonomous agent coins on Robinhood Chain.">
+<meta property="og:title" content="ORVYN — Launch agent coins">
+<meta property="og:description" content="Describe an agent in one sentence, give it a face and a coin on Pons, and earn 0.5% of every trade. The launchpad for agent coins on Robinhood Chain.">
 <meta property="og:url" content="https://orvyn.life/app">
-<meta property="og:image" content="https://orvyn.life/brand/og.jpg">
+<meta property="og:image" content="https://orvyn.life/og.png?v=1">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ORVYN — Give an idea a mind. orvyn.life">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@orvynlife">
-<meta name="twitter:title" content="ORVYN — Launch autonomous agent coins">
-<meta name="twitter:description" content="Describe an agent, give it a coin on Pons, let it work. The launchpad for autonomous agent coins on Robinhood Chain.">
-<meta name="twitter:image" content="https://orvyn.life/brand/og.jpg">
+<meta name="twitter:title" content="ORVYN — Launch agent coins">
+<meta name="twitter:description" content="Describe an agent in one sentence, give it a face and a coin on Pons, and earn 0.5% of every trade. The launchpad for agent coins on Robinhood Chain.">
+<meta name="twitter:image" content="https://orvyn.life/og.png?v=1">
 <link rel="apple-touch-icon" href="/brand/apple-touch-icon.png">
+<link rel="canonical" href="https://orvyn.life/app">
 <link rel="icon" href="/brand/mark-64.png">
 <link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/css/base.css">
@@ -35,7 +36,7 @@
 <header class="topbar">
   <button class="tb-menu" type="button" data-menu aria-label="Toggle menu"><svg class="icon"><use href="#i-menu"/></svg></button>
   <a class="brand" href="/" aria-label="ORVYN home"><span class="brand-mark"><img src="/brand/mark-64.png" alt=""></span><span class="brand-word">ORVYN</span></a>
-  <div class="ca-chip tb-ca" data-ca><b>CA</b><span data-ca-text>Coming soon</span>
+  <div class="ca-chip tb-ca" data-ca><b hidden>CA</b><span data-ca-text>CA NOT YET BOTTLED</span>
     <button type="button" data-copy aria-label="Copy contract address"><svg class="icon"><use href="#i-copy"/></svg></button>
   </div>
   <label class="search">
@@ -49,7 +50,7 @@
     <button class="btn btn-white" type="button" data-connect><svg class="icon"><use href="#i-wallet"/></svg><span>Connect</span></button>
   </div>
 </header>
-<div class="ca-strip" data-ca><b>CA</b><span data-ca-text>Coming soon</span><button type="button" data-copy aria-label="Copy contract address"><svg class="icon"><use href="#i-copy"/></svg></button></div>
+<div class="ca-strip" data-ca><b hidden>CA</b><span data-ca-text>CA NOT YET BOTTLED</span><button type="button" data-copy aria-label="Copy contract address"><svg class="icon"><use href="#i-copy"/></svg></button></div>
 
 <aside class="side" data-side>
   <nav class="side-nav">
@@ -77,8 +78,8 @@
         <span class="tc-orb"><img src="/brand/mark-64.png" alt=""></span>
         <div><b data-ticker>$ORVYN</b><small>Platform token · Robinhood Chain</small></div>
       </div>
-      <div class="tc-ca" data-ca><span data-ca-text>Coming soon</span><button type="button" data-copy aria-label="Copy contract address"><svg class="icon"><use href="#i-copy"/></svg></button></div>
-      <div class="tc-row">
+      <div class="tc-ca" data-ca><span data-ca-text>CA NOT YET BOTTLED</span><button type="button" data-copy aria-label="Copy contract address"><svg class="icon"><use href="#i-copy"/></svg></button></div>
+      <div class="tc-row" data-ca-only hidden>
         <a class="btn btn-white" data-buy href="#">Buy</a>
         <a class="btn btn-ghost" data-chart href="#">Chart</a>
       </div>
@@ -232,9 +233,10 @@
 
   <footer class="foot">
     <div class="foot-brand"><a class="brand" href="/"><span class="brand-mark"><img src="/brand/mark-64.png" alt=""></span>ORVYN</a><p>Give an idea a mind.</p></div>
-    <div class="ca-chip" data-ca><b>CA</b><span data-ca-text>Coming soon</span><button type="button" data-copy aria-label="Copy contract address"><svg class="icon"><use href="#i-copy"/></svg></button></div>
+    <div class="ca-chip" data-ca><b hidden>CA</b><span data-ca-text>CA NOT YET BOTTLED</span><button type="button" data-copy aria-label="Copy contract address"><svg class="icon"><use href="#i-copy"/></svg></button></div>
     <div class="foot-links"><a data-x href="#">X</a><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/risk">Risk</a><a href="https://sourcify.dev/#/lookup/0x1CFC861DDE51c158f3EF12F41C78A6201F00AFEE" target="_blank" rel="noopener">Contract</a></div>
-    <p class="foot-legal">ORVYN is independent and not affiliated with Robinhood or Pons. Agent coins are speculative and can lose all of their value.</p>
+    <div class="foot-verify"><span>Verify</span><a href="https://repo.sourcify.dev/4663/0x1CFC861DDE51c158f3EF12F41C78A6201F00AFEE" target="_blank" rel="noopener">Source</a><a href="https://robinhoodchain.blockscout.com/address/0x1CFC861DDE51c158f3EF12F41C78A6201F00AFEE?tab=read_contract" target="_blank" rel="noopener">Split</a><a href="https://robinhoodchain.blockscout.com/tx/0xe4bd3c92d53f7fbb97647103c174297b60ef26b49dc046fda0f8582811ebb09d?tab=logs" target="_blank" rel="noopener">A real collect</a><a href="/api/config" target="_blank" rel="noopener">API</a></div>
+    <p class="foot-legal">ORVYN is independent and not affiliated with Robinhood or Pons. Agent coins are speculative and can lose all of their value. Not financial advice. Crypto is volatile. DYOR.</p>
   </footer>
 </main>
 

@@ -4,7 +4,7 @@
 //   ANTHROPIC_API_KEY   same features straight through the Anthropic SDK, used only without an OpenRouter key
 //   AI_MODEL            OpenRouter default anthropic/claude-haiku-5.5; Anthropic default claude-opus-5-5
 //   AI_USD_DAILY        hard stop on OpenRouter spend per UTC day (default $2), from the cost OpenRouter reports
-//   MESHY_API_KEY       agent faces (nano-banana text-to-image, ~3 credits each)
+//   MESHY_API_KEY       agent faces (nano-banana text-to-image, ~3 credits each); MESHY_BASE / MESHY_POLL_MS for a local stand-in
 //   AI_DRAFT_DAILY / AI_CHAT_DAILY / AI_FACE_DAILY   global caps per UTC day
 //
 // Daily counters live in data/ai-usage.json so a restart does not reset the budget.
@@ -171,12 +171,12 @@ export async function makeFace(look, ip, outDir) {
   if (!MESHY) throw new AiError("Face generation is not switched on yet.");
   spend("face", ip);
   const H = { Authorization: "Bearer " + MESHY, "Content-Type": "application/json" };
-  const api = "https://api.meshy.ai/openapi/v1/text-to-image";
+  const api = (process.env.MESHY_BASE || "https://api.meshy.ai") + "/openapi/v1/text-to-image";
   const prompt = `Bold collectible-card illustration, single centered subject: ${look.slice(0, 300)}. Rich saturated background, soft studio light, high detail stylized 3D render, no text, no letters, no frame.`;
   const r = await (await fetch(api, { method: "POST", headers: H, body: JSON.stringify({ ai_model: "nano-banana", prompt, aspect_ratio: "3:4" }) })).json();
   if (!r.result) throw new AiError("Face generation failed to start.", 502);
   for (let i = 0; i < 25; i++) {
-    await new Promise((s) => setTimeout(s, 3000));
+    await new Promise((s) => setTimeout(s, +process.env.MESHY_POLL_MS || 3000));
     const t = await (await fetch(`${api}/${r.result}`, { headers: H })).json();
     if (t.status === "SUCCEEDED" && t.image_urls?.[0]) {
       const buf = Buffer.from(await (await fetch(t.image_urls[0])).arrayBuffer());

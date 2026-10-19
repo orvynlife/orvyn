@@ -25,3 +25,23 @@ _backups/
 
 # server access details stay local
 deploy.sh
+
+# content kit (local only)
+bin/
+media/
+public/_board/
+public/_film/
+public/_brand/
+KONTEN X ORVYN/
+# content-kit tooling stays local (films, studio, kit images, export) — it needs the local board files above
+tools/film.mjs
+tools/films.mjs
+tools/orvyn-sound.mjs
+tools/studio.mjs
+tools/ui-shots.mjs
+tools/render-konten.mjs
+tools/export-konten.mjs
+tools/qa-board.mjs
+tools/qa-video.mjs
+tools/cek-follow.mjs
+tools/proof-shots.mjs

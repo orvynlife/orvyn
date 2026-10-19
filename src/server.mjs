@@ -201,12 +201,12 @@ const agentTpl = () => fs.readFileSync(path.join(PUB, "agent.html"), "utf8");
 function agentPage(res, id) {
   const a = store.get(id);
   const ok = a && store.isPublic(a);
-  const abs = (u) => (u?.startsWith("http") ? u : SITE + (u || "/brand/og.jpg"));
+  const abs = (u) => (u?.startsWith("http") ? u : SITE + (u || "/og.png?v=1"));
   const title = ok ? `${a.name} ($${a.ticker}) — ORVYN` : "Agent — ORVYN";
   const desc = ok ? a.description : "An autonomous agent coin on ORVYN.";
   const html = agentTpl()
     .replaceAll("{{TITLE}}", esc(title)).replaceAll("{{DESC}}", esc(desc))
-    .replaceAll("{{IMAGE}}", esc(ok && a.image ? abs(a.image) : SITE + "/brand/og.jpg"))
+    .replaceAll("{{IMAGE}}", esc(ok && a.image ? abs(a.image) : SITE + "/og.png?v=1"))
     .replaceAll("{{URL}}", esc(`${SITE}/agent/${id}`)).replaceAll("{{ID}}", esc(id))
     .replaceAll("{{CARD}}", ok && a.image ? "summary_large_image" : "summary_large_image");
   send(res, ok ? 200 : 404, html, TYPES[".html"]);

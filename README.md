@@ -18,7 +18,8 @@ The creator's 0.7% Pons fee is paid into a `OrvynFeeSplitter` created for that o
 
 | Contract | Address (Robinhood Chain, 4663) |
 |---|---|
-| `OrvynSplitterFactory` | [`0x1CFC861DDE51c158f3EF12F41C78A6201F00AFEE`](https://sourcify.dev/#/lookup/0x1CFC861DDE51c158f3EF12F41C78A6201F00AFEE) — verified, exact match |
+| `OrvynSplitterFactory` | [`0x1CFC861DDE51c158f3EF12F41C78A6201F00AFEE`](https://robinhoodchain.blockscout.com/address/0x1CFC861DDE51c158f3EF12F41C78A6201F00AFEE?tab=contract_code) — verified, exact match on [Sourcify](https://repo.sourcify.dev/4663/0x1CFC861DDE51c158f3EF12F41C78A6201F00AFEE) and Blockscout |
+| `OrvynFeeSplitter` (first coin) | [`0x0121bd295d77d3Cf37D0aCD3F63b0f85Ed1Abb85`](https://robinhoodchain.blockscout.com/address/0x0121bd295d77d3cf37d0acd3f63b0f85ed1abb85?tab=contract_code) — verified on Sourcify and Blockscout |
 | Pons v2 fee escrow | `0xd3AFEB2a57f70eF218Aa82451c51B2fb0416Ac9e` |
 
 ## Repository
@@ -27,7 +28,7 @@ The creator's 0.7% Pons fee is paid into a `OrvynFeeSplitter` created for that o
 contracts/   Foundry: OrvynFeeSplitter, OrvynSplitterFactory, unit + Pons fork tests, deploy script
 src/         Node server (no framework): agents store, launch verification, market data, AI, admin API
 public/      Site: hero (Three.js glass orb), launchpad app, agent pages, legal pages
-tools/       Screenshots, end-to-end tests (fork and live), social card and logo renders
+tools/       Proof checks (verify.mjs), CA setup (set-ca.mjs), phone QA, end-to-end tests (fork and live), social card render
 data/        agents.example.json — the example agents a fresh install starts with
 ```
 
@@ -53,6 +54,14 @@ forge test                                   # unit tests + fork tests against t
 ```bash
 node tools/fork-e2e.mjs   # anvil fork → deploy factory → create agent → launch → trade → collect & split
 ```
+
+## Check it yourself
+
+```bash
+node tools/verify.mjs
+```
+
+Checks every claim from outside, with no keys: the verified source on Sourcify, the split read from the chain (`creatorBps` 7143 of 10000), that Pons pays a coin's creator fee to its splitter, a real `collect()` on mainnet ([tx 0xe4bd…b09d](https://robinhoodchain.blockscout.com/tx/0xe4bd3c92d53f7fbb97647103c174297b60ef26b49dc046fda0f8582811ebb09d?tab=logs): 0.00526 ETH → 0.003757 to the creator, 0.001503 to ORVYN), and the live site's public API (`orvyn.life/api/config`).
 
 ## Security
 

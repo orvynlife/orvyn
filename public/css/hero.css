@@ -65,6 +65,9 @@
   display: inline-flex; align-items: center; gap: 12px; font-size: 13px; font-weight: 600; color: var(--muted);
   padding-bottom: 4px; border-bottom: 1px solid var(--line-2); transition: color .2s, border-color .2s, gap .25s var(--ease);
 }
+.h-legal { pointer-events: auto; text-align: center; display: grid; justify-items: center; gap: 2px; }
+.h-legal .foot-verify { justify-content: center; font-size: 12px; }
+.h-legal p { margin: 0; font-size: 11.5px; color: var(--dim); }
 .h-enter:hover { color: var(--text); border-color: var(--violet-2); gap: 18px; }
 
 .reveal { opacity: 0; transform: translateY(14px); animation: rise .9s var(--ease) forwards; animation-delay: calc(var(--d) * 90ms + 120ms); }
@@ -75,13 +78,14 @@
   .h-top .ca-chip { order: 3; width: 100%; margin: 0; }
   .h-top .brand { margin-right: auto; }
   .h-right .btn { height: 36px; padding: 0 14px; font-size: 13px; }
-  .h-main { grid-template-columns: 1fr; align-content: end; padding: 0 var(--gutter) 84px; }
+  .h-main { grid-template-columns: 1fr; align-content: end; padding: 0 var(--gutter) 150px; }
   .h-copy .micro { margin-bottom: 14px; }
   .h-copy h1 { font-size: clamp(38px, 11vw, 56px); }
   .lede { font-size: 15px; margin: 16px 0 22px; }
   .h-steps { display: none; }
   .h-meet { display: none; }
-  .h-foot { justify-content: center; }
+  .h-foot { justify-content: center; flex-direction: column-reverse; align-items: center; gap: 8px; padding-bottom: calc(14px + env(safe-area-inset-bottom)); }
+  .h-legal .foot-verify { gap: 0 14px; font-size: 11.5px; }
   .vignette { background: radial-gradient(120% 70% at 50% 30%, transparent 30%, rgba(6,6,9,.7) 70%, #060609 100%), linear-gradient(0deg, #060609 18%, transparent 60%); }
 }
 

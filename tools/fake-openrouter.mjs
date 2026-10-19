@@ -7,9 +7,11 @@ http.createServer((req, res) => {
     const j = JSON.parse(b || "{}");
     const auth = req.headers.authorization === "Bearer test-or-key";
     if (!auth) { res.writeHead(401); return res.end(JSON.stringify({ error: { message: "bad key" } })); }
+    // FAKE_PROFILE (JSON) / FAKE_CHAT (text) let a film or a test pick what the "model" answers
+    const profile = process.env.FAKE_PROFILE ? JSON.parse(process.env.FAKE_PROFILE) : { name: "Owl Ledger", ticker: "OWL", category: "utility", description: "Reads every governance vote overnight and posts a short summary at sunrise.", skills: ["Vote reading", "Summaries", "Alerts"], persona: "Calm and precise. Speaks like a night librarian.", look: "a small owl made of folded ledger paper holding a lantern" };
     const content = j.response_format?.type === "json_schema"
-      ? JSON.stringify({ name: "Owl Ledger", ticker: "OWL", category: "utility", description: "Reads every governance vote overnight and posts a short summary at sunrise.", skills: ["Vote reading", "Summaries", "Alerts"], persona: "Calm and precise. Speaks like a night librarian.", look: "a small owl made of folded ledger paper holding a lantern" })
-      : `(${j.model}) Hi! I'm ${j.messages[0].content.match(/You are (.+?) \(/)?.[1] || "an agent"}. You said: ${j.messages.at(-1).content}`;
+      ? JSON.stringify(profile)
+      : process.env.FAKE_CHAT || `(${j.model}) Hi! I'm ${j.messages[0].content.match(/You are (.+?) \(/)?.[1] || "an agent"}. You said: ${j.messages.at(-1).content}`;
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ choices: [{ finish_reason: "stop", message: { role: "assistant", content } }], usage: { prompt_tokens: 300, completion_tokens: 120, cost: COST } }));
   });

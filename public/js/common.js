@@ -32,16 +32,35 @@
   });
   window.ORVYN_HAS_CA = hasCa;
 
-  document.querySelectorAll("[data-ca-text]").forEach((el) => { el.textContent = hasCa ? C.ca : "Coming soon"; });
-  document.querySelectorAll("[data-copy]").forEach((b) => b.addEventListener("click", async () => {
-    if (!hasCa) return toast("Contract address drops at launch");
-    try { await navigator.clipboard.writeText(C.ca); toast("Contract address copied"); } catch { toast(C.ca); }
-  }));
+  // CA chip: shows the full address once it exists, the placeholder before; a click copies exactly what is shown.
+  const caText = C.caText || "CA NOT YET BOTTLED";
+  const copy = async (text) => {
+    try { await navigator.clipboard.writeText(text); }
+    catch {
+      const ta = Object.assign(document.createElement("textarea"), { value: text });
+      ta.setAttribute("readonly", ""); ta.style.cssText = "position:fixed;opacity:0";
+      document.body.append(ta); ta.select(); document.execCommand("copy"); ta.remove();
+    }
+    toast("Copied");
+  };
+  document.querySelectorAll("[data-ca]").forEach((chip) => {
+    const label = chip.querySelector("b"), text = chip.querySelector("[data-ca-text]");
+    chip.classList.toggle("has-ca", hasCa);
+    if (label) label.hidden = !hasCa;
+    if (text) text.textContent = hasCa ? C.ca : caText;
+    chip.setAttribute("role", "button"); chip.tabIndex = 0;
+    chip.title = hasCa ? "Copy contract address" : "The contract address is posted at launch";
+    const go = () => copy(hasCa ? C.ca : caText);
+    chip.addEventListener("click", go);
+    chip.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+  });
   const social = (sel, url, label) => document.querySelectorAll(sel).forEach((a) => {
     if (url) { a.href = url; a.target = "_blank"; a.rel = "noopener"; }
     else a.addEventListener("click", (e) => { e.preventDefault(); toast(label + " coming soon"); });
   });
   social("[data-x]", C.x, "X account");
+  // Buy / Chart only exist once the CA does
+  document.querySelectorAll("[data-ca-only]").forEach((el) => { el.hidden = !hasCa; });
   document.querySelectorAll("[data-buy]").forEach((a) => {
     if (hasCa) { a.href = ORVYN_URL(C.buyUrl); a.target = "_blank"; a.rel = "noopener"; }
     else a.addEventListener("click", (e) => { e.preventDefault(); toast("Buy opens at launch"); });
