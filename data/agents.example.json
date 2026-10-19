@@ -1,0 +1,172 @@
+[
+ {
+  "id": "ex-nova-lens",
+  "name": "Nova Lens",
+  "ticker": "NOVA",
+  "category": "utility",
+  "description": "Scans every new Robinhood Chain launch and writes a plain-English risk note before you touch it.",
+  "skills": [
+   "Chain reader",
+   "Risk notes",
+   "Alerts"
+  ],
+  "image": "/img/agents/nova-lens.webp",
+  "example": true,
+  "status": "approved"
+ },
+ {
+  "id": "ex-tidewatch",
+  "name": "Tidewatch",
+  "ticker": "TIDE",
+  "category": "utility",
+  "description": "Watches liquidity pools around the clock and pings you the moment depth starts to drain.",
+  "skills": [
+   "Pool monitor",
+   "Telegram alerts"
+  ],
+  "image": "/img/agents/tidewatch.webp",
+  "example": true,
+  "status": "approved"
+ },
+ {
+  "id": "ex-boltsmith",
+  "name": "Boltsmith",
+  "ticker": "BOLT",
+  "category": "utility",
+  "description": "Writes Solidity line by line, then audits its own work and explains every finding.",
+  "skills": [
+   "Solidity",
+   "Audit",
+   "Tests"
+  ],
+  "image": "/img/agents/boltsmith.webp",
+  "example": true,
+  "status": "approved"
+ },
+ {
+  "id": "ex-relayx",
+  "name": "RelayX",
+  "ticker": "RELAY",
+  "category": "creator",
+  "description": "Mirrors your posts to X, Farcaster and Telegram, rewritten in your own voice for each crowd.",
+  "skills": [
+   "Cross-posting",
+   "Voice match"
+  ],
+  "image": "/img/agents/relayx.webp",
+  "example": true,
+  "status": "approved"
+ },
+ {
+  "id": "ex-oracle-pip",
+  "name": "Oracle Pip",
+  "ticker": "PIP",
+  "category": "meme",
+  "description": "A tiny fortune-teller that reads your wallet like a tarot spread. Accuracy not included.",
+  "skills": [
+   "Wallet reading",
+   "Daily card"
+  ],
+  "image": "/img/agents/oracle-pip.webp",
+  "example": true,
+  "status": "approved"
+ },
+ {
+  "id": "ex-static-cat",
+  "name": "Static Cat",
+  "ticker": "STATIC",
+  "category": "meme",
+  "description": "A cat made of TV noise that only answers in glitch art. Feed it a word, get a poster back.",
+  "skills": [
+   "Glitch art",
+   "Posters"
+  ],
+  "image": "/img/agents/static-cat.webp",
+  "example": true,
+  "status": "approved"
+ },
+ {
+  "id": "ex-lumen-moth",
+  "name": "Lumen Moth",
+  "ticker": "LUMEN",
+  "category": "companion",
+  "description": "Writes a new bedtime story every night from three words your kid picks.",
+  "skills": [
+   "Stories",
+   "Voice read-out"
+  ],
+  "image": "/img/agents/lumen-moth.webp",
+  "example": true,
+  "status": "approved"
+ },
+ {
+  "id": "ex-paperhand",
+  "name": "Paperhand",
+  "ticker": "PAPER",
+  "category": "meme",
+  "description": "Turns your trading history into a weekly comic strip that roasts every panic sell.",
+  "skills": [
+   "Comics",
+   "Trade history"
+  ],
+  "image": "/img/agents/paperhand.webp",
+  "example": true,
+  "status": "approved"
+ },
+ {
+  "id": "ex-gridchef",
+  "name": "Gridchef",
+  "ticker": "CHEF",
+  "category": "companion",
+  "description": "Snap your fridge, get a week of meals and a shopping list that wastes nothing.",
+  "skills": [
+   "Meal plans",
+   "Vision"
+  ],
+  "image": "/img/agents/gridchef.webp",
+  "example": true,
+  "status": "approved"
+ },
+ {
+  "id": "ex-kilnbot",
+  "name": "Kilnbot",
+  "ticker": "KILN",
+  "category": "creator",
+  "description": "Designs ceramic glaze recipes and renders the test tiles before you fire a single one.",
+  "skills": [
+   "Glaze recipes",
+   "Renders"
+  ],
+  "image": "/img/agents/kilnbot.webp",
+  "example": true,
+  "status": "approved"
+ },
+ {
+  "id": "ex-dustmap",
+  "name": "Dustmap",
+  "ticker": "DUST",
+  "category": "utility",
+  "description": "Turns raw drone footage into a 3D map you can measure, share and annotate.",
+  "skills": [
+   "Photogrammetry",
+   "3D maps"
+  ],
+  "image": "/img/agents/dustmap.webp",
+  "example": true,
+  "status": "approved"
+ },
+ {
+  "id": "ex-echo-dock",
+  "name": "Echo Dock",
+  "ticker": "ECHO",
+  "category": "community",
+  "description": "Listens to your community voice chats and posts clean notes and to-dos after every call.",
+  "skills": [
+   "Transcripts",
+   "Summaries"
+  ],
+  "image": "/img/agents/echo-dock.webp",
+  "example": true,
+  "status": "approved"
+ }
+]

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Review — ORVYN</title>
+<link rel="icon" href="/brand/mark-64.png">
+<link rel="stylesheet" href="/css/base.css">
+<style>
+  body { padding: 28px var(--gutter) 60px; max-width: 1180px; margin: 0 auto; }
+  header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+  header h1 { margin: 0 auto 0 0; font-size: 22px; letter-spacing: -.02em; }
+  .login { max-width: 380px; margin: 14vh auto; display: grid; gap: 12px; text-align: center; }
+  .login input, .tabs button { font: inherit; }
+  .login input { height: 46px; border-radius: 12px; border: 1px solid var(--line-2); background: var(--panel); padding: 0 14px; color: var(--text); }
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tabs button { height: 34px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line-2); color: var(--muted); background: var(--bg-2); }
+  .tabs button.on { color: var(--text); border-color: #4a4370; background: rgba(143,123,255,.12); }
+  .tabs b { margin-left: 6px; color: var(--amber); font-weight: 600; }
+  .list { display: grid; gap: 10px; }
+  .row { display: grid; grid-template-columns: 84px 1fr auto; gap: 16px; align-items: center; padding: 12px; border-radius: 16px; border: 1px solid var(--line); background: var(--panel); }
+  .row img, .row .noimg { width: 84px; height: 110px; border-radius: 12px; object-fit: cover; background: var(--bg-2); }
+  .row h3 { margin: 0; font-size: 16px; }
+  .row h3 small { font: 600 12px ui-monospace, Menlo, monospace; color: var(--amber); margin-left: 6px; }
+  .row p { margin: 4px 0; color: #cfcddb; font-size: 13.5px; }
+  .meta { font-size: 12px; color: var(--dim); display: flex; gap: 12px; flex-wrap: wrap; }
+  .meta a { color: var(--violet-2); }
+  .acts { display: grid; gap: 6px; }
+  .acts .btn { height: 34px; font-size: 13px; padding: 0 14px; }
+  .st { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+  .st.pending { color: #ffd9a3; } .st.approved { color: #b6a8ff; } .st.hidden { color: #ff9b8a; }
+  .empty { color: var(--dim); padding: 40px; text-align: center; border: 1px dashed var(--line-2); border-radius: 16px; }
+  @media (max-width: 640px) { .row { grid-template-columns: 64px 1fr; } .row img, .row .noimg { width: 64px; height: 84px; } .acts { grid-column: 1 / -1; grid-template-columns: repeat(3, 1fr); } }
+</style>
+</head>
+<body>
+<form class="login" data-login hidden>
+  <img src="/brand/mark-64.png" alt="" style="width:56px;margin:0 auto">
+  <h1 style="margin:0;font-size:24px">Review queue</h1>
+  <input type="password" placeholder="Admin token" autocomplete="current-password" required>
+  <button class="btn btn-white" type="submit">Open</button>
+  <p class="micro" data-login-err></p>
+</form>
+
+<div data-panel hidden>
+  <header>
+    <h1>ORVYN · review</h1>
+    <div class="tabs" data-tabs>
+      <button class="on" data-f="pending">In review<b data-n="pending"></b></button>
+      <button data-f="approved">Approved<b data-n="approved"></b></button>
+      <button data-f="launched">Launched<b data-n="launched"></b></button>
+      <button data-f="hidden">Hidden<b data-n="hidden"></b></button>
+    </div>
+    <button class="btn btn-ghost" type="button" data-logout>Lock</button>
+  </header>
+  <div class="list" data-list></div>
+</div>
+<div class="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  let token = sessionStorage.getItem("orvyn.admin") || "", agents = [], filter = "pending";
+  const toast = (m) => { const t = $(".toast"); t.textContent = m; t.classList.add("on"); setTimeout(() => t.classList.remove("on"), 2000); };
+  const api = (p, body) => fetch(p, { method: body ? "POST" : "GET", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" }, body: body && JSON.stringify(body) });
+
+  async function load() {
+    const r = await api("/api/admin/agents");
+    if (r.status === 401) { sessionStorage.removeItem("orvyn.admin"); $("[data-panel]").hidden = true; $("[data-login]").hidden = false; if (token) $("[data-login-err]").textContent = "Wrong token"; return; }
+    agents = (await r.json()).agents; $("[data-login]").hidden = true; $("[data-panel]").hidden = false; render();
+  }
+  const group = (a) => a.status === "hidden" ? "hidden" : a.launch?.ca ? "launched" : a.status;
+  function render() {
+    for (const f of ["pending", "approved", "launched", "hidden"]) $(`[data-n=${f}]`).textContent = agents.filter((a) => group(a) === f).length || "";
+    const list = agents.filter((a) => group(a) === filter);
+    $("[data-list]").innerHTML = list.length ? list.map((a) => `
+      <div class="row" data-id="${esc(a.id)}">
+        ${a.image ? `<img src="${esc(a.image)}" alt="">` : `<div class="noimg"></div>`}
+        <div>
+          <h3>${esc(a.name)}<small>$${esc(a.ticker)}</small></h3>
+          <p>${esc(a.description)}</p>
+          <div class="meta"><span class="st ${esc(a.status)}">${esc(a.status)}</span><span>${esc(a.category)}</span><span>${new Date(a.createdAt).toLocaleString()}</span>
+            ${a.launch?.ca ? `<a target="_blank" rel="noopener" href="https://ponsfamily.com/launchpad/${esc(a.launch.ca)}">coin ↗</a>` : ""}<a target="_blank" href="/agent/${esc(a.id)}">page ↗</a><span>ip ${esc(a.ip || "—")}</span></div>
+        </div>
+        <div class="acts">
+          ${a.status !== "approved" ? `<button class="btn btn-white" data-a="approve">Approve</button>` : `<button class="btn btn-ghost" data-a="pending">Back to review</button>`}
+          ${a.status !== "hidden" ? `<button class="btn btn-ghost" data-a="hide">Hide</button>` : ""}
+          ${!a.launch?.ca ? `<button class="btn btn-ghost" data-a="delete">Delete</button>` : ""}
+        </div>
+      </div>`).join("") : `<p class="empty">Nothing here.</p>`;
+  }
+  $("[data-tabs]").addEventListener("click", (e) => { const b = e.target.closest("[data-f]"); if (!b) return; filter = b.dataset.f; document.querySelectorAll("[data-tabs] button").forEach((x) => x.classList.toggle("on", x === b)); render(); });
+  $("[data-list]").addEventListener("click", async (e) => {
+    const b = e.target.closest("[data-a]"); if (!b) return;
+    const id = b.closest("[data-id]").dataset.id, action = b.dataset.a;
+    if (action === "delete" && !confirm("Delete this agent for good?")) return;
+    const r = await api(`/api/admin/agents/${id}`, { action }); const j = await r.json();
+    if (!r.ok) return toast(j.error || "Failed");
+    if (action === "delete") agents = agents.filter((a) => a.id !== id); else agents = agents.map((a) => (a.id === id ? j.agent : a));
+    render(); toast("Done");
+  });
+  $("[data-login]").addEventListener("submit", (e) => { e.preventDefault(); token = e.target.querySelector("input").value.trim(); sessionStorage.setItem("orvyn.admin", token); load(); });
+  $("[data-logout]").addEventListener("click", () => { sessionStorage.removeItem("orvyn.admin"); location.reload(); });
+  if (token) load(); else $("[data-login]").hidden = false;
+})();
+</script>
+</body>
+</html>

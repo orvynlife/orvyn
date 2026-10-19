@@ -1,0 +1,38 @@
+// UI pass: own draft → drawer → launch modal; agent page; admin; phone wallet sheet.
+import puppeteer from "puppeteer-core";
+const ID = process.argv[2];
+const b = await puppeteer.launch({ executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", headless: true, args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
+const errs = [];
+const page = async (w, h, mobile = false) => {
+  const p = await b.newPage();
+  if (mobile) await p.setUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148");
+  await p.setViewport({ width: w, height: h, deviceScaleFactor: 1, isMobile: mobile, hasTouch: mobile });
+  p.on("pageerror", (e) => errs.push(e.message)); p.on("console", (m) => m.type() === "error" && !/404/.test(m.text()) && errs.push(m.text()));
+  await p.evaluateOnNewDocument((id) => localStorage.setItem("orvyn.mine", JSON.stringify([id])), ID);
+  return p;
+};
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+let p = await page(1440, 900);
+await p.goto("http://localhost:9170/app#agent=" + ID, { waitUntil: "networkidle0" }); await sleep(800);
+await p.screenshot({ path: "_gen/ui-drawer.png" });
+console.log("launch button visible:", await p.$eval("[data-dr-launch]", (e) => !e.hidden), "| note:", await p.$eval("[data-dr-note]", (e) => e.textContent.slice(0, 60)));
+await p.click("[data-dr-launch]"); await sleep(700);
+await p.screenshot({ path: "_gen/ui-launch.png" });
+console.log("launch modal:", await p.$eval(".lmodal", (e) => e.classList.contains("on")), "| button:", await p.$eval("[data-lm-go]", (e) => e.textContent));
+await p.close();
+p = await page(1440, 900);
+await p.goto("http://localhost:9170/agent/ex-nova-lens", { waitUntil: "networkidle0" }); await sleep(500);
+await p.screenshot({ path: "_gen/ui-agentpage.png" });
+await p.goto("http://localhost:9170/agent/" + ID, { waitUntil: "networkidle0" }); await sleep(500);
+console.log("own draft page launch btn:", await p.$eval("[data-ap-launch]", (e) => !e.hidden));
+await p.goto("http://localhost:9170/admin", { waitUntil: "networkidle0" });
+await p.type("[data-login] input", "test-admin-123"); await p.click("[data-login] button"); await sleep(800);
+await p.screenshot({ path: "_gen/ui-admin.png" });
+await p.close();
+p = await page(390, 844, true);
+await p.goto("http://localhost:9170/app", { waitUntil: "networkidle0" }); await sleep(500);
+await p.click(".tabbar [data-connect]"); await sleep(600);
+await p.screenshot({ path: "_gen/ui-wsheet.png" });
+console.log("wallet sheet:", await p.$eval(".wsheet", (e) => e.classList.contains("on")).catch(() => false));
+console.log("errors:", errs);
+await b.close();

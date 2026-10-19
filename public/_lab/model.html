@@ -1,0 +1,21 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:#0b0a12}canvas{width:100vw;height:100vh;display:block}</style>
+<script type="importmap">{ "imports": { "three": "/vendor/three.module.min.js", "three/addons/": "/vendor/addons/" } }</script></head>
+<body><canvas id="c"></canvas>
+<script type="module">
+import * as THREE from "three";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+const q = new URLSearchParams(location.search);
+const c = document.getElementById("c"), r = new THREE.WebGLRenderer({ canvas: c, antialias: true });
+r.setSize(innerWidth, innerHeight, false); r.toneMapping = THREE.ACESFilmicToneMapping; r.outputColorSpace = THREE.SRGBColorSpace;
+const s = new THREE.Scene(); s.environment = new THREE.PMREMGenerator(r).fromScene(new RoomEnvironment(), 0.04).texture; s.environmentIntensity = 0.7;
+s.add(new THREE.DirectionalLight(0xfff3e6, 2.2).translateX(-2).translateY(4).translateZ(4));
+const rim = new THREE.DirectionalLight(0x8f7bff, 4); rim.position.set(-4, 2, -3); s.add(rim);
+const cam = new THREE.PerspectiveCamera(28, innerWidth / innerHeight, 0.1, 50); cam.position.set(0, 1.05, 5.4); cam.lookAt(0, 1, 0);
+new GLTFLoader().load(q.get("m") || "/_lab/monster.glb", (g) => {
+  const m = g.scene, b = new THREE.Box3().setFromObject(m), sz = b.getSize(new THREE.Vector3());
+  m.scale.setScalar(2 / sz.y); const b2 = new THREE.Box3().setFromObject(m), cc = b2.getCenter(new THREE.Vector3());
+  m.position.set(-cc.x, -b2.min.y, -cc.z); m.rotation.y = +(q.get("ry") || 0); s.add(m);
+  r.render(s, cam); window.done = true;
+});
+</script></body></html>

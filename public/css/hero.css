@@ -1,0 +1,88 @@
+.hero-page { min-height: 100svh; overflow: hidden; }
+
+#stage { position: fixed; inset: 0; width: 100%; height: 100%; display: block; z-index: 0; }
+.vignette {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    radial-gradient(120% 80% at 50% 45%, transparent 40%, rgba(6,6,9,.65) 80%, #060609 100%),
+    linear-gradient(90deg, rgba(6,6,9,.75) 0%, transparent 34%, transparent 70%, rgba(6,6,9,.6) 100%);
+}
+
+.h-top {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 5;
+  display: flex; align-items: center; gap: 18px; padding: 20px var(--gutter);
+}
+.h-top .ca-chip { margin-right: auto; }
+.h-right { display: flex; align-items: center; gap: 10px; }
+.h-icon {
+  width: 40px; height: 40px; border-radius: 999px; display: grid; place-items: center;
+  border: 1px solid var(--line-2); color: var(--muted); background: rgba(12,12,18,.5); backdrop-filter: blur(10px);
+  transition: color .2s, border-color .2s;
+}
+.h-icon:hover { color: var(--text); border-color: #3c3b4c; }
+.h-icon .icon { width: 16px; height: 16px; }
+
+.h-main {
+  position: relative; z-index: 3; min-height: 100svh; display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center;
+  padding: 110px var(--gutter) 130px; pointer-events: none;
+}
+.h-main a, .h-main button { pointer-events: auto; }
+
+.h-copy { max-width: 520px; }
+.h-copy .micro { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 22px; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 0 4px rgba(255,178,77,.14), 0 0 14px var(--amber); animation: pulse 2.4s infinite; }
+@keyframes pulse { 50% { box-shadow: 0 0 0 7px rgba(255,178,77,0), 0 0 6px var(--amber); } }
+
+.h-copy h1 {
+  margin: 0; font-weight: 700; font-size: clamp(42px, 5.2vw, 76px); line-height: .98; letter-spacing: -.035em;
+}
+.h-copy h1 em {
+  font-style: normal; background: var(--orb); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.lede { margin: 22px 0 30px; max-width: 420px; color: var(--muted); font-size: 16px; line-height: 1.6; }
+.h-cta { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn-lg { height: 48px; padding: 0 22px; font-size: 15px; }
+
+.h-steps {
+  justify-self: end; list-style: none; margin: 0; padding: 0; width: min(280px, 100%);
+  border-top: 1px solid var(--line-2);
+}
+.h-steps li { display: flex; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.h-steps span { font: 500 11px/20px ui-monospace, Menlo, monospace; color: var(--dim); }
+.h-steps b { display: block; font-size: 14px; font-weight: 600; }
+.h-steps p { margin: 2px 0 0; color: var(--muted); font-size: 13px; }
+
+.h-foot {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 4;
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 20px;
+  padding: 0 var(--gutter) 26px; pointer-events: none;
+}
+.h-foot a { pointer-events: auto; }
+.h-meet { max-width: 300px; }
+.h-meet p { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+.h-enter {
+  display: inline-flex; align-items: center; gap: 12px; font-size: 13px; font-weight: 600; color: var(--muted);
+  padding-bottom: 4px; border-bottom: 1px solid var(--line-2); transition: color .2s, border-color .2s, gap .25s var(--ease);
+}
+.h-enter:hover { color: var(--text); border-color: var(--violet-2); gap: 18px; }
+
+.reveal { opacity: 0; transform: translateY(14px); animation: rise .9s var(--ease) forwards; animation-delay: calc(var(--d) * 90ms + 120ms); }
+@keyframes rise { to { opacity: 1; transform: none; } }
+
+@media (max-width: 900px) {
+  .h-top { padding-top: 14px; gap: 10px; flex-wrap: wrap; }
+  .h-top .ca-chip { order: 3; width: 100%; margin: 0; }
+  .h-top .brand { margin-right: auto; }
+  .h-right .btn { height: 36px; padding: 0 14px; font-size: 13px; }
+  .h-main { grid-template-columns: 1fr; align-content: end; padding: 0 var(--gutter) 84px; }
+  .h-copy .micro { margin-bottom: 14px; }
+  .h-copy h1 { font-size: clamp(38px, 11vw, 56px); }
+  .lede { font-size: 15px; margin: 16px 0 22px; }
+  .h-steps { display: none; }
+  .h-meet { display: none; }
+  .h-foot { justify-content: center; }
+  .vignette { background: radial-gradient(120% 70% at 50% 30%, transparent 30%, rgba(6,6,9,.7) 70%, #060609 100%), linear-gradient(0deg, #060609 18%, transparent 60%); }
+}
+
+@media (prefers-reduced-motion: reduce) { .reveal { animation: none; opacity: 1; transform: none; } }

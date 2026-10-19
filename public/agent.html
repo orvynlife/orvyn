@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{TITLE}}</title>
+<meta name="description" content="{{DESC}}">
+<meta name="theme-color" content="#060609">
+<link rel="canonical" href="{{URL}}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ORVYN">
+<meta property="og:title" content="{{TITLE}}">
+<meta property="og:description" content="{{DESC}}">
+<meta property="og:url" content="{{URL}}">
+<meta property="og:image" content="{{IMAGE}}">
+<meta name="twitter:card" content="{{CARD}}">
+<meta name="twitter:site" content="@orvynlife">
+<meta name="twitter:title" content="{{TITLE}}">
+<meta name="twitter:description" content="{{DESC}}">
+<meta name="twitter:image" content="{{IMAGE}}">
+<link rel="icon" href="/brand/mark-64.png">
+<link rel="apple-touch-icon" href="/brand/apple-touch-icon.png">
+<link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/app.css">
+<link rel="stylesheet" href="/css/agent.css">
+<script src="/config.js"></script>
+</head>
+<body class="app agent-page" data-agent="{{ID}}">
+
+<header class="topbar">
+  <a class="brand" href="/" aria-label="ORVYN home"><span class="brand-mark"><img src="/brand/mark-64.png" alt=""></span><span class="brand-word">ORVYN</span></a>
+  <div class="ca-chip tb-ca" data-ca><b>CA</b><span data-ca-text>Coming soon</span>
+    <button type="button" data-copy aria-label="Copy contract address"><svg class="icon"><use href="#i-copy"/></svg></button>
+  </div>
+  <div class="tb-right">
+    <a class="tb-icon" data-x href="#" aria-label="ORVYN on X"><svg class="icon"><use href="#i-x"/></svg></a>
+    <a class="btn btn-ghost ap-back" href="/app"><svg class="icon"><use href="#i-chev-l"/></svg>All agents</a>
+    <button class="btn btn-white" type="button" data-connect><svg class="icon"><use href="#i-wallet"/></svg><span>Connect</span></button>
+  </div>
+</header>
+<div class="ca-strip" data-ca><b>CA</b><span data-ca-text>Coming soon</span><button type="button" data-copy aria-label="Copy contract address"><svg class="icon"><use href="#i-copy"/></svg></button></div>
+
+<main class="ap" data-ap>
+  <div class="ap-loading" data-ap-loading><img src="/brand/mark-64.png" alt=""></div>
+  <div class="ap-missing" data-ap-missing hidden>
+    <h1>Agent not found.</h1>
+    <p>It may still be in review, or it was removed.</p>
+    <a class="btn btn-white" href="/app">Browse agents</a>
+  </div>
+  <div class="ap-grid" data-ap-grid hidden>
+    <div class="ap-media"><img data-ap-img alt=""></div>
+    <section class="ap-body">
+      <span class="badge" data-ap-badge></span>
+      <h1 data-ap-name></h1>
+      <p class="dr-ticker" data-ap-ticker></p>
+      <p class="ap-desc" data-ap-desc></p>
+      <div class="dr-skills" data-ap-skills></div>
+
+      <div class="dr-stats">
+        <div><span>Market cap</span><b data-ap-mc>—</b></div>
+        <div><span>Chain</span><b>Robinhood</b></div>
+        <div><span>Status</span><b data-ap-status>—</b></div>
+      </div>
+      <div class="dr-curve" data-ap-curve hidden>
+        <div class="dr-curve-top"><span>Bonding curve</span><b data-ap-prog>0%</b></div>
+        <div class="bar"><i data-ap-bar></i></div>
+        <div class="dr-ca"><code data-ap-ca></code><button type="button" data-ap-copy aria-label="Copy contract address"><svg class="icon"><use href="#i-copy"/></svg></button></div>
+        <div class="dr-fees" data-ap-fees hidden>
+          <div><span>Creator fees waiting</span><b data-ap-feeamt>0 ETH</b><small data-ap-feesplit></small></div>
+          <button class="btn btn-ghost" type="button" data-ap-collect>Collect &amp; split</button>
+        </div>
+      </div>
+
+      <div class="ap-actions">
+        <a class="btn btn-white" data-ap-buy target="_blank" rel="noopener" href="#" hidden><svg class="icon"><use href="#i-bag"/></svg>Buy on Pons</a>
+        <a class="btn btn-ghost" data-ap-chart target="_blank" rel="noopener" href="#" hidden>Chart</a>
+        <a class="btn btn-ghost" data-ap-share target="_blank" rel="noopener" href="#"><svg class="icon"><use href="#i-x"/></svg>Share</a>
+      </div>
+      <button class="launch-btn launch-btn-wide dr-launch" type="button" data-ap-launch hidden>
+        <span>Launch its coin on Pons</span><span class="eyes" aria-hidden="true"><i><b></b></i><i><b></b></i></span>
+      </button>
+
+      <div class="ap-chat" data-ap-chatwrap hidden>
+        <p class="micro">Talk to it</p>
+        <div class="chat" data-ap-chat></div>
+      </div>
+      <p class="dr-note" data-ap-note></p>
+    </section>
+  </div>
+
+  <footer class="foot">
+    <div class="foot-brand"><a class="brand" href="/"><span class="brand-mark"><img src="/brand/mark-64.png" alt=""></span>ORVYN</a><p>Give an idea a mind.</p></div>
+    <div class="foot-links"><a href="/app">Launchpad</a><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/risk">Risk</a><a href="https://sourcify.dev/#/lookup/0x1CFC861DDE51c158f3EF12F41C78A6201F00AFEE" target="_blank" rel="noopener">Contract</a><a data-x href="#">X</a></div>
+    <p class="foot-legal">ORVYN is independent and not affiliated with Robinhood or Pons. Agent coins are speculative and can lose all of their value.</p>
+  </footer>
+</main>
+
+<div class="toast" role="status" aria-live="polite"></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M17.8 3h3.1l-6.8 7.8L22 21h-6.2l-4.9-6.4L5.3 21H2.2l7.3-8.3L2 3h6.4l4.4 5.8L17.8 3zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18v3"/><rect x="4" y="8" width="16" height="11" rx="2.5"/><circle cx="16" cy="13.5" r="1.2" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-chev-l" viewBox="0 0 24 24"><path d="M14.5 6l-6 6 6 6"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24"><path d="M5.5 8.5h13l-1 11h-11z"/><path d="M9 8.5V7a3 3 0 0 1 6 0v1.5"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+</svg>
+
+<script src="/js/common.js"></script>
+<script src="/vendor/ethers.umd.min.js"></script>
+<script src="/js/wallet.js"></script>
+<script src="/js/launch.js"></script>
+<script src="/js/chat.js"></script>
+<script src="/js/agent.js"></script>
+</body>
+</html>

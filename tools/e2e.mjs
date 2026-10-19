@@ -1,0 +1,26 @@
+// Create-flow check: prompt → review modal → save → draft in Live → drawer.
+import puppeteer from "puppeteer-core";
+const b = await puppeteer.launch({ executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", headless: true, args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
+const p = await b.newPage(); await p.setViewport({ width: 1440, height: 900 });
+const errs = []; p.on("pageerror", (e) => errs.push(e.message)); p.on("console", (m) => m.type() === "error" && errs.push(m.text()));
+await p.goto("http://localhost:9170/app", { waitUntil: "networkidle0" });
+await p.type("[data-prompt-input]", "A sleepy owl that summarises every governance vote overnight");
+await p.keyboard.press("Enter");
+await p.waitForSelector("[data-modal].on");
+const draft = await p.evaluate(() => ({ name: document.querySelector("[data-review] [name=name]").value, ticker: document.querySelector("[data-review] [name=ticker]").value, cat: document.querySelector("[data-review] [name=category]").value }));
+console.log("draft", JSON.stringify(draft));
+await new Promise((r) => setTimeout(r, 500));
+await p.screenshot({ path: "_gen/e2e-review.png" });
+await p.click("[data-review] button[type=submit]");
+await p.waitForFunction(() => !document.querySelector("[data-modal]").classList.contains("on"), { timeout: 5000 });
+await new Promise((r) => setTimeout(r, 900));
+const live = await p.evaluate(() => [...document.querySelectorAll("[data-list=live] .card")].slice(0, 2).map((c) => c.querySelector(".card-name b").textContent + "|" + c.querySelector(".pill").textContent));
+console.log("live first", live, "side", await p.$eval("[data-side-list]", (e) => e.textContent.trim().slice(0, 60)));
+await p.click("[data-list=live] .card");
+await p.waitForSelector("[data-drawer].on"); await new Promise((r) => setTimeout(r, 500));
+await p.screenshot({ path: "_gen/e2e-drawer.png" });
+await p.keyboard.press("Escape");
+await p.click("[data-list=live] .card:nth-child(2)"); await new Promise((r) => setTimeout(r, 500));
+await p.screenshot({ path: "_gen/e2e-drawer2.png" });
+console.log("errors", errs);
+await b.close();

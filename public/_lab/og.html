@@ -1,0 +1,45 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="/css/base.css">
+<style>
+  html,body{margin:0;width:1200px;height:630px;overflow:hidden;background:#060609}
+  .og{position:relative;width:1200px;height:630px;display:flex;align-items:center;
+    background:radial-gradient(50% 70% at 28% 50%,rgba(143,123,255,.28),transparent 70%),radial-gradient(40% 50% at 30% 70%,rgba(255,178,77,.10),transparent 70%),#060609}
+  .og::before{content:"";position:absolute;inset:0;opacity:.35;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:48px 48px;-webkit-mask:radial-gradient(60% 80% at 30% 50%,#000,transparent 80%)}
+  canvas{position:absolute;left:40px;top:45px;width:540px;height:540px}
+  .txt{position:relative;margin-left:600px;width:540px}
+  .brand{font-size:30px;letter-spacing:.2em;margin-bottom:26px}
+  .brand img{width:44px;height:44px}
+  h1{margin:0;font-size:76px;line-height:.98;letter-spacing:-.04em;font-weight:700;color:#f3f2f7}
+  h1 em{font-style:normal;background:var(--orb);-webkit-background-clip:text;background-clip:text;color:transparent}
+  p{margin:26px 0 0;font-size:24px;color:#a19fb2;line-height:1.4}
+  .url{margin-top:34px;font:600 20px/1 "Inter";letter-spacing:.12em;color:#f3f2f7;opacity:.85}
+</style>
+<script type="importmap">{ "imports": { "three": "/vendor/three.module.min.js", "three/addons/": "/vendor/addons/" } }</script></head>
+<body><div class="og">
+  <canvas id="c"></canvas>
+  <div class="txt">
+    <div class="brand"><span class="brand-mark" style="width:44px;height:44px"><img src="/brand/mark.png" alt=""></span>ORVYN</div>
+    <h1>Give an idea<br><em>a mind.</em></h1>
+    <p>Describe an agent. Give it a coin on Robinhood Chain. Let it work.</p>
+    <div class="url">ORVYN.LIFE</div>
+  </div>
+</div>
+<script type="module">
+import * as THREE from "three";
+import { makeNebula, makeGlass, radialTex } from "/js/nebula.js";
+const canvas = document.getElementById("c");
+const r = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
+r.setPixelRatio(1); r.setSize(540, 540, false); r.toneMapping = THREE.ACESFilmicToneMapping; r.outputColorSpace = THREE.SRGBColorSpace; r.setClearColor(0, 0);
+const s = new THREE.Scene(), cam = new THREE.PerspectiveCamera(24, 1, 0.1, 50); cam.position.set(0, 0, 6.4);
+const back = makeNebula(false), front = makeNebula(true); back.uniforms.uTime.value = front.uniforms.uTime.value = 52;
+const g = new THREE.Group(); s.add(g);
+g.add(new THREE.Mesh(new THREE.SphereGeometry(1, 96, 64), back));
+const eye = new THREE.Group();
+const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: radialTex("rgba(190,170,255,0.9)"), blending: THREE.AdditiveBlending, depthWrite: false, opacity: .35 })); glow.scale.setScalar(.95);
+eye.add(glow, new THREE.Mesh(new THREE.TorusGeometry(0.28, 0.032, 24, 96), new THREE.MeshBasicMaterial({ color: new THREE.Color(2.2, 2.1, 2.6) })));
+eye.position.set(0.08, 0.04, 0.5); g.add(eye);
+g.add(new THREE.Mesh(new THREE.SphereGeometry(0.985, 96, 64), front));
+g.add(new THREE.Mesh(new THREE.SphereGeometry(1.03, 96, 64), makeGlass()));
+r.render(s, cam);
+await document.fonts.ready; window.done = true;
+</script></body></html>

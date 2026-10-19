@@ -1,0 +1,91 @@
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+:root {
+  --bg: #060609;
+  --bg-2: #0b0b10;
+  --panel: #0f0f15;
+  --panel-2: #14141c;
+  --line: #1d1d27;
+  --line-2: #2a2a37;
+  --text: #f3f2f7;
+  --muted: #8d8b9c;
+  --dim: #5d5b6c;
+  --violet: #8f7bff;
+  --violet-2: #b6a8ff;
+  --amber: #ffb24d;
+  --orb: linear-gradient(120deg, #8f7bff 0%, #c48cff 45%, #ffb24d 100%);
+  --radius: 18px;
+  --gutter: clamp(16px, 2.4vw, 36px);
+  --ease: cubic-bezier(.2, .7, .1, 1);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 400 15px/1.5 "Inter", system-ui, sans-serif;
+  font-feature-settings: "cv11", "ss01", "ss03";
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+button, input, textarea, select { font: inherit; color: inherit; }
+button { cursor: pointer; background: none; border: 0; padding: 0; }
+img { display: block; max-width: 100%; }
+[hidden] { display: none !important; }
+::selection { background: rgba(143, 123, 255, .35); }
+
+.icon { width: 18px; height: 18px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+/* brand */
+.brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: .14em; font-size: 15px; }
+.brand-mark { width: 30px; height: 30px; flex: none; border-radius: 50%; position: relative; }
+.brand-mark img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 2px 10px rgba(143,123,255,.45)); }
+
+/* buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 40px; padding: 0 18px; border-radius: 999px; font-weight: 600; font-size: 14px;
+  transition: transform .2s var(--ease), background .2s, box-shadow .2s, border-color .2s;
+  white-space: nowrap;
+}
+.btn:active { transform: scale(.97); }
+.btn-white { background: #f4f3f8; color: #0a0a0f; box-shadow: inset 0 -2px 0 rgba(0,0,0,.12), 0 8px 30px -8px rgba(182,168,255,.55); }
+.btn-white:hover { background: #fff; box-shadow: inset 0 -2px 0 rgba(0,0,0,.12), 0 10px 40px -6px rgba(182,168,255,.75); }
+.btn-ghost { border: 1px solid var(--line-2); background: rgba(255,255,255,.02); color: var(--text); }
+.btn-ghost:hover { border-color: #3c3b4c; background: rgba(255,255,255,.05); }
+.btn-orb { position: relative; color: #fff; background: #17151f; isolation: isolate; }
+.btn-orb::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; z-index: -1;
+  background: var(--orb); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+}
+.btn-orb::after { content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -2; background: var(--orb); opacity: .16; transition: opacity .2s; }
+.btn-orb:hover::after { opacity: .3; }
+
+/* CA chip (full address, copyable) */
+.ca-chip {
+  display: inline-flex; align-items: center; gap: 10px; height: 36px; padding: 0 6px 0 12px;
+  border: 1px solid var(--line-2); border-radius: 10px; background: rgba(12,12,18,.7); backdrop-filter: blur(10px);
+  font: 500 12px/1 ui-monospace, "SF Mono", Menlo, monospace; color: var(--muted); max-width: 100%;
+}
+.ca-chip b { color: var(--dim); font-weight: 600; letter-spacing: .08em; font-family: "Inter", sans-serif; font-size: 11px; }
+.ca-chip span { color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ca-chip button { width: 26px; height: 26px; border-radius: 7px; display: grid; place-items: center; color: var(--muted); }
+.ca-chip button:hover { background: rgba(255,255,255,.06); color: var(--text); }
+
+.toast {
+  position: fixed; left: 50%; bottom: 28px; transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
+  background: #f4f3f8; color: #0a0a0f; font-weight: 600; font-size: 13px; padding: 10px 16px; border-radius: 999px;
+  transition: .25s var(--ease); z-index: 100;
+}
+.toast.on { opacity: 1; transform: translate(-50%, 0); }
+
+.micro { font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }

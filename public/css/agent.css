@@ -1,0 +1,40 @@
+/* /agent/:id — single agent page (reuses app.css components) */
+.agent-page .main, .ap { margin: 0; }
+.ap { max-width: 1180px; margin: 0 auto; padding: calc(var(--top) + 28px) var(--gutter) 40px; }
+.ap-back { height: 40px; }
+.ap-back .icon { width: 16px; height: 16px; }
+.ap-loading { min-height: 60svh; display: grid; place-items: center; }
+.ap-loading img { width: 56px; height: 56px; animation: apPulse 1.6s var(--ease) infinite; }
+@keyframes apPulse { 50% { transform: scale(.88); opacity: .6; } }
+.ap-missing { min-height: 60svh; display: grid; place-content: center; justify-items: center; text-align: center; gap: 6px; }
+.ap-missing h1 { margin: 0; font-size: 36px; letter-spacing: -.03em; }
+.ap-missing p { margin: 0 0 16px; color: var(--muted); }
+
+.ap-grid { display: grid; grid-template-columns: minmax(0, 440px) minmax(0, 1fr); gap: 40px; align-items: start; }
+.ap-media {
+  position: sticky; top: calc(var(--top) + 24px); aspect-ratio: 3 / 4; border-radius: 26px; overflow: hidden;
+  border: 1px solid var(--line-2); background: var(--panel); box-shadow: 0 40px 100px -40px rgba(143,123,255,.45);
+}
+.ap-media img { width: 100%; height: 100%; object-fit: cover; }
+.ap-media.ph { --h: 260; }
+.ap-media.ph span { font-size: 80px; }
+.ap-body { display: flex; flex-direction: column; gap: 12px; padding-top: 6px; }
+.ap-body h1 { margin: 4px 0 0; font-size: clamp(36px, 4.4vw, 56px); line-height: 1; letter-spacing: -.035em; }
+.ap-desc { margin: 4px 0 0; color: #d4d2e0; font-size: 16px; line-height: 1.65; max-width: 620px; }
+.ap-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.ap-actions .icon { width: 16px; height: 16px; }
+.ap-chat { display: grid; gap: 8px; margin-top: 8px; }
+.ap-chat .chat-log { max-height: 360px; }
+.agent-page .foot { margin-top: 80px; }
+
+@media (max-width: 1100px) {
+  .ap { padding-top: calc(var(--top) + 36px + 20px); }
+}
+@media (max-width: 860px) {
+  .ap-grid { grid-template-columns: 1fr; gap: 22px; }
+  .ap-media { position: relative; top: 0; max-width: 420px; width: 100%; margin: 0 auto; }
+  .ap-back { display: none; }
+}
+@media (max-width: 760px) {
+  .ap { padding: calc(var(--top) + 36px + 14px) 16px 40px; }
+}

@@ -1,0 +1,27 @@
+# dependencies & build output
+node_modules
+contracts/out/
+contracts/cache/
+contracts/broadcast/
+contracts/lib/
+
+# secrets — never commit
+.env
+.env.*
+*.key
+*.pem
+
+# runtime data (agents, uploads, AI usage, IPs) — only the example seed is public
+data/*
+!data/agents.example.json
+
+# local work, references, renders, backups
+_gen/
+_ref/
+_backups/
+*.log
+.DS_Store
+.deploy-domain
+
+# server access details stay local
+deploy.sh
