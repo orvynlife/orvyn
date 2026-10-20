@@ -56,8 +56,8 @@
           <input name="buy" inputmode="decimal" value="0" autocomplete="off">
         </label>
         <div class="lm-chips" data-lm-chips><button type="button" data-v="0">None</button><button type="button" data-v="0.005">0.005</button><button type="button" data-v="0.01">0.01</button><button type="button" data-v="0.05">0.05</button></div>
-        <label class="field" data-lm-taxf><span>Creator tax on every trade (paid to you, fixed forever)</span>
-          <select name="tax"><option value="0">0%</option><option value="100">1%</option><option value="200">2%</option><option value="300">3%</option><option value="500">5%</option></select>
+        <label class="field" data-lm-taxf><span data-lm-taxlbl>Creator tax on every trade (paid to you, fixed forever)</span>
+          <select name="tax" data-lm-tax><option value="0">0%</option><option value="100">1%</option><option value="200">2%</option><option value="300">3%</option><option value="500">5%</option></select>
         </label>
         <div class="lm-sum">
           <div><span>Pons launch fee</span><b data-lm-fee>—</b></div>
@@ -109,7 +109,12 @@
     cfg().then((c) => {
       if (c.launchFeeEth && $("[data-lm-fee]").textContent === "—") $("[data-lm-fee]").textContent = c.launchFeeEth + " ETH";
       const split = !!c.fees?.splitterFactory;
-      $("[data-lm-taxf]").hidden = split;
+      // split model: an optional creator tax (0–2%) goes into the same splitter and is shared the same way
+      if (split && !el.dataset.taxSplit) {
+        el.dataset.taxSplit = "1";
+        $("[data-lm-taxlbl]").textContent = `Extra creator tax on every trade (optional, fixed forever) — split like the fees: ${Math.round(c.fees.creatorBps / 100 * 100) / 100}% to you, ${Math.round((10_000 - c.fees.creatorBps) / 100 * 100) / 100}% to ORVYN`;
+        for (const o of [...$("[data-lm-tax]").options]) if (+o.value > 200) o.remove();
+      }
       $("[data-lm-split]").hidden = !split;
       $("[data-lm-splitstep]").hidden = !split;
       if (split) $("[data-lm-splittxt]").textContent = `${pct(c.fees.creatorBps)}% of volume to you · ${Math.round((0.7 - pct(c.fees.creatorBps)) * 100) / 100}% to ORVYN`;
@@ -172,13 +177,13 @@
           const ev = rc.logs.map((l) => { try { return sf.interface.parseLog(l); } catch { return null; } }).find((x) => x?.name === "SplitterCreated");
           if (ev) recipient = ev.args.splitter;
         } else if (!(await sf.isSplitter(recipient))) throw new Error("Unexpected contract at the splitter address.");
-        tax = 0;
+        tax = Math.min(tax, 200);   // the extra tax is paid into the splitter too and split the same way
       }
       const link = `${site()}/agent/${agent.id}`;
       const params = {
         name: agent.name.slice(0, 64), symbol: agent.ticker.slice(0, 16), logo: absImage(agent.image).slice(0, 512),
         description: `${agent.description}\n\nAgent page: ${link.replace(/^https?:\/\//, "")}`.slice(0, 2048),
-        socials: { twitter: "", telegram: "", discord: "", website: link, farcaster: "" },
+        socials: { twitter: (window.ORVYN || {}).x || "", telegram: "", discord: "", website: link, farcaster: "" },
         creatorFeeRecipient: recipient, creatorTaxBps: tax, buybackEnabled: false,
         expectedEconomics: economics, salt: ethers.hexlify(ethers.randomBytes(32)),
       };

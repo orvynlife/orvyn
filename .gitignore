@@ -45,3 +45,4 @@ tools/qa-board.mjs
 tools/qa-video.mjs
 tools/cek-follow.mjs
 tools/proof-shots.mjs
+tools/house-launch.mjs

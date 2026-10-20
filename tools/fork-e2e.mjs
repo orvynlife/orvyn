@@ -103,7 +103,9 @@ try {
   await page.waitForSelector(".lmodal.on");
   await page.click("[data-lm-go]"); // connect
   await until(() => page.$eval("[data-lm-go]", (b) => b.textContent.includes("Launch")), 10_000, "wallet connected");
-  check(await page.$eval("[data-lm-taxf]", (e) => e.hidden), "creator tax hidden under the split model");
+  const TAX = +(process.env.TAX ?? 200);   // the optional extra creator tax, paid into the same splitter
+  check(await page.$eval("[data-lm-taxf]", (e) => !e.hidden && [...e.querySelectorAll("option")].every((o) => +o.value <= 200)), "split model offers an extra creator tax up to 2%");
+  await page.select('[data-lform] [name="tax"]', String(TAX));
   check((await page.$eval("[data-lm-splittxt]", (e) => e.textContent)).includes("0.5% of volume to you"), "modal shows 0.5% / 0.2% split");
   await page.$eval('[data-lform] [name="buy"]', (i) => { i.value = "0.01"; i.dispatchEvent(new Event("input")); });
   await page.click("[data-lm-go]");
@@ -155,7 +157,8 @@ try {
   check(toCreator === (total * 7143n) / 10_000n, "creator got exactly 71.43%", ethers.formatEther(toCreator) + " ETH");
   check((await rpc.getBalance(treasury)) - tBefore === toTreasury, "treasury got the rest", ethers.formatEther(toTreasury) + " ETH");
   const ppm = Number((total * 1_000_000n) / volume);
-  check(ppm > 6600 && ppm < 7400, "collected ≈ 0.7% of volume", `${ppm / 10_000}% · creator ${(Number(toCreator * 1_000_000n / volume) / 10_000)}% · ORVYN ${(Number(toTreasury * 1_000_000n / volume) / 10_000)}%`);
+  const want = 7000 + TAX * 100;   // ppm: Pons' 0.7% creator fee + the extra tax
+  check(ppm > want * 0.94 && ppm < want * 1.06, `collected ≈ ${want / 10_000}% of volume (0.7% fee + ${TAX / 100}% tax)`, `${ppm / 10_000}% · creator ${(Number(toCreator * 1_000_000n / volume) / 10_000)}% · ORVYN ${(Number(toTreasury * 1_000_000n / volume) / 10_000)}%`);
   check(errs.length === 0, "no page errors", errs.join(" | "));
   await page.screenshot({ path: path.join(ROOT, "_gen/e2e-fork-agent.png") });
   await browser.close();

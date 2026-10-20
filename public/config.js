@@ -2,7 +2,7 @@
 window.ORVYN = {
   name: "ORVYN",
   ticker: "$ORVYN",
-  ca: "",                      // full contract address — set by tools/set-ca.mjs at launch
+  ca: "0x481D18ccf06130fc1aBb84D5dfa1B9E775db5Dfc",                      // full contract address — set by tools/set-ca.mjs at launch
   caText: "CA NOT YET BOTTLED", // what the CA chip shows (and copies) before launch
   buyUrl: "https://ponsfamily.com/launchpad/{CA}",
   chartUrl: "https://dexscreener.com/robinhood/{CA}",
