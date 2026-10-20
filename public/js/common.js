@@ -59,6 +59,7 @@
     else a.addEventListener("click", (e) => { e.preventDefault(); toast(label + " coming soon"); });
   });
   social("[data-x]", C.x, "X account");
+  social("[data-gh]", C.github, "GitHub");
   // Buy / Chart only exist once the CA does
   document.querySelectorAll("[data-ca-only]").forEach((el) => { el.hidden = !hasCa; });
   document.querySelectorAll("[data-buy]").forEach((a) => {

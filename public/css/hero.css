@@ -90,3 +90,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) { .reveal { animation: none; opacity: 1; transform: none; } }
+/* narrow phones: brand, X, GitHub and Enter app stay on one row */
+@media (max-width: 420px) {
+  .h-right { gap: 6px; }
+  .h-icon { width: 36px; height: 36px; }
+  .h-right .btn { padding: 0 12px; }
+}

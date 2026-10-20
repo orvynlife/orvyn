@@ -7,6 +7,7 @@ window.ORVYN = {
   buyUrl: "https://ponsfamily.com/launchpad/{CA}",
   chartUrl: "https://dexscreener.com/robinhood/{CA}",
   x: "https://x.com/orvynlife",
+  github: "https://github.com/orvynlife/orvyn",   // open-source code
   chain: {
     id: 4663, hex: "0x1237", name: "Robinhood Chain",
     rpc: "https://robinhood-rpc.publicnode.com",      // first: the official RPC is intercepted on some Indonesian ISPs
